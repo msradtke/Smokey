@@ -8,13 +8,13 @@ namespace Assets.Scripts.Utilities
 {
     public static class EntityUtility
     {
-        public static LineRenderer GetSelectionCircle(Collider2D collider, LineRenderer line)
+        public static void GetSelectionCircle(Collider2D collider, LineRenderer line)
         {
             Debug.Log("get selection circle");
             if (collider == null)
             {
                 Debug.Log("collider is null");
-                return null;
+                return;
             }
             
             var width = collider.bounds.size.x;
@@ -47,9 +47,10 @@ namespace Assets.Scripts.Utilities
 
             }
 
+			var parentTrans = line.GetComponentInParent<Transform> ();
             line.sortingLayerName = "Entities";
-
-            return line;
+			parentTrans.position = new Vector3 (collider.offset.x, collider.offset.y, line.transform.position.z);
+            //return line;
         }
     }
 }
