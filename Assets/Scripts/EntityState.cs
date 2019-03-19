@@ -12,10 +12,8 @@ namespace Assets.Scripts
         public Collider Collider;
         private void Start()
         {
-            var circle = gameObject.GetComponentInChildren<LineRenderer>();
-            var collider = gameObject.GetComponent<Collider2D>();
-            EntityUtility.GetSelectionCircle(collider, circle);
-            circle.enabled = false;
+            CreateSelectionCircle();
+            
         }
         private void FixedUpdate()
         {
@@ -37,6 +35,14 @@ namespace Assets.Scripts
             {
                 circle.enabled = true;
             }
+        }
+
+        public void CreateSelectionCircle()
+        {
+            var circle = gameObject.GetComponentInChildren<LineRenderer>();
+            var collider = gameObject.GetComponent<Collider2D>();
+            EntityUtility.GetSelectionCircle(collider, circle);
+            circle.enabled = false;
         }
     }
 }

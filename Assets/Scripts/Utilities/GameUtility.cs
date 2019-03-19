@@ -11,7 +11,7 @@ namespace Assets.Scripts.Utilities
     {
         public readonly static int ChunkSize = 12;
         public static Transform CameraTarget { get; set; }
-
+        public static bool IsGridActive = false;
         public static void LoadEntity()
         {
             

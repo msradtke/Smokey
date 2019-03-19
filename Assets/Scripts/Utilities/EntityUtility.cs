@@ -47,9 +47,10 @@ namespace Assets.Scripts.Utilities
 
             }
 
-			var parentTrans = line.GetComponentInParent<Transform> ();
+			//var parentTrans = line.GetComponentInParent<Transform> ();
             line.sortingLayerName = "Entities";
-			parentTrans.position = new Vector3 (collider.offset.x, collider.offset.y, line.transform.position.z);
+            line.transform.localPosition = new Vector3 (collider.offset.x, collider.offset.y, line.transform.position.z);
+            //line.transform.localPosition = new Vector3 (11, 11, 0);
             //return line;
         }
     }

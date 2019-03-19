@@ -52,18 +52,21 @@ public class SceneSwitcher : MonoBehaviour
     {
         if(!mainScene.isLoaded)
             SceneManager.LoadScene("MainScene");
+        
     }
     public void UnloadGridScene()
     {
         SceneManager.UnloadSceneAsync(gridScene);
+        Time.timeScale = 1;
     }
         public void GotoGridScene()
     {
+        Time.timeScale = 0;
         gridScene = SceneManager.GetSceneByName("GridScene");
         Debug.Log("GridScene");
         if (!gridScene.isLoaded)
-            SceneManager.LoadScene("GridScene", LoadSceneMode.Additive);
-
+            SceneManager.LoadScene("GridScene",LoadSceneMode.Additive);
+        
     }
 
     void SplitScreen()

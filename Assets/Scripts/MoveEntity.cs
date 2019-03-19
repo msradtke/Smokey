@@ -29,6 +29,8 @@ namespace Assets.Scripts
 
         private void FixedUpdate()
         {
+            if (GameUtility.IsGridActive)
+                return;
             HandleMovement();
             Camera.transform.position = new Vector3(rb2d.transform.position.x, rb2d.transform.position.y, Camera.transform.position.z);
             
