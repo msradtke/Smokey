@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class SelectEntity : MonoBehaviour
 {
-
-
     LineRenderer line;
     static GameObject previousSelected;
     // Use this for initialization

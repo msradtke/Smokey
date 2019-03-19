@@ -3,22 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridLogic : MonoBehaviour {
+public class GridLogic : MonoBehaviour
+{
     bool isGridActive;
     Vector3 savedPosition;
     float savedZoom;
 
     public Camera Cam;
     public float Zoom = 2f;
-    
+    public Transform Grid;
+    public Transform GridParent;
+
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         savedPosition = Camera.main.transform.position;
         savedZoom = Cam.orthographicSize;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
         if (Input.GetKeyDown(KeyCode.D) && Input.GetKey(KeyCode.LeftControl))
         {
             Debug.Log("KeyDown");
@@ -36,6 +41,7 @@ public class GridLogic : MonoBehaviour {
         GameUtility.IsGridActive = true;
         savedPosition = Cam.transform.position;
         isGridActive = true;
+        GenerateRandomGrid();
         Cam.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, Cam.transform.position.z);
     }
 
@@ -46,4 +52,23 @@ public class GridLogic : MonoBehaviour {
         Cam.transform.position = savedPosition;
         isGridActive = false;
     }
+
+    void GenerateRandomGrid()
+    {
+        var gridArea = TestGrid.GetGridArea();
+        var width = gridArea.Width;
+        var height = gridArea.Height;
+        var grid = new Transform[width, height];
+
+        for (int x = 0; x < width; ++x)
+            for (int y = 0; y < height; ++y)
+            {
+                grid[x, y] = Instantiate(Grid,GridParent);
+                grid[x, y].transform.localPosition = new Vector3(x, y, GridParent.transform.position.z);
+            }
+
+
+    }
+
+
 }

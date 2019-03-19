@@ -12,7 +12,7 @@ namespace Assets.Scripts
 
         Rigidbody2D rb2d;
         SpriteRenderer sprRender;
-
+        
         public float Speed = 10;
         public float RotationSpeed = 1;
         public Camera Camera;
