@@ -18,6 +18,7 @@ namespace Assets.Scripts.Utilities
         static TestGrid()
         {
             ran = new System.Random();
+
         }
 
         public static GridArea GetGridArea()
@@ -30,24 +31,27 @@ namespace Assets.Scripts.Utilities
             return gridArea;
         }
 
-        public static Chip GetCpu()
+		public static Chip GetCpu()
         {
             var numPorts = 4;
             var portPos = GetRandomPorts(numPorts);
             var ports = new List<Port>();
             foreach (var pos in portPos)
                 ports.Add(new Port(pos));
-            var cpu = new Chip(ChipSize.Small, ports);
+			var cpu = new Chip(ChipSize.Small,ports);
+			cpu.Color = GameUtility.GetRandomColor ();
             return cpu;
 
         }
 
-        public static Chip GetBoostChip()
+		public static Chip GetBoostChip()
         {
-            var ports = new List<Port>();
-            var p = new Port(ran.Next(1, 12));
-            var boostChip = new Chip(ChipSize.Small,new List<Port> { p });
-            return boostChip;
+			return GetCpu (); //maybe change colors ports etc
+
+//            var ports = new List<Port>();
+//            var p = new Port(ran.Next(1, 12));
+//            var boostChip = new Chip(ChipSize.Small,new List<Port> { p });
+//            return boostChip;
         }
 
         static List<int> GetRandomPorts(int count)
@@ -65,5 +69,19 @@ namespace Assets.Scripts.Utilities
             }
             return list;
         }
+
+		public static GridComponent GetRandomComponent()
+		{
+			var gridComponent = new GridComponent ();
+			gridComponent.Color = GameUtility.GetRandomColor ();
+			var cell = new Cell ();
+			cell.Location = new CellLocation { X = ran.Next(0,3), Y = ran.Next(0,3) };
+			gridComponent.Cells.Add (cell);
+
+			return gridComponent;
+		}
+
+
+
     }
 }

@@ -54,6 +54,7 @@ namespace Assets.Scripts.Models
         public SpriteRenderer forground;
         public SpriteRenderer background;
         public SpriteRenderer chip;
+		//public ComponentScript ComponentScript;
 
         public GridTile()
         {
@@ -63,6 +64,8 @@ namespace Assets.Scripts.Models
         {
 
         }
+
+
 
     }
 }

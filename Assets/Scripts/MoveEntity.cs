@@ -23,8 +23,8 @@ namespace Assets.Scripts
 
             rb2d = GetComponent<Rigidbody2D>();
             sprRender = GetComponent<SpriteRenderer>();
-            GameUtility.CameraTarget = gameObject.transform;
-            //rb2d.centerOfMass = sprRender.sprite.pivot;
+	            GameUtility.CameraTarget = gameObject.transform;
+	            //rb2d.centerOfMass = sprRender.sprite.pivot;
         }
 
         private void FixedUpdate()

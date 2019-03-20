@@ -12,7 +12,12 @@ namespace Assets.Scripts.Models
 
         }
         public GridTile Parent { get; set; }
-        
+        public CellLocation Location { get; set; }
+		public CellState State {
+			get;
+			set;
+		}
+
     }
     public enum CellState
     {

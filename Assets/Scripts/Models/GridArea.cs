@@ -18,7 +18,10 @@ namespace Assets.Scripts.Models
         public int Width { get; private set; }
         public int Height { get; private set; }
         public Vector3 Location { get; set; }
-
-
+		public int TileCount {get {return Width * Height;}}
+		public List<GridModel> Grids {
+			get;
+			set;
+		}
     }
 }

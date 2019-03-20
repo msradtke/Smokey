@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using UnityEngine;
 namespace Assets.Scripts.Models
 {
-    public class Chip
+	public class Chip : GridComponent
     {
         public ChipSize Size { get; private set; }
         public int PortCount { get; private set; }
+
+
         public Chip(ChipSize size, List<Port> ports)
         {
             Size = size;
