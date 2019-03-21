@@ -38,7 +38,6 @@ namespace Assets.Scripts.Models
             int gridRow = 0;
             for (int y = 0; y < Height * 3; y++)
             {
-
                 int gridCol = gridRow * Width;
                 int cellIndex = 3 * yCount;
                 
@@ -54,19 +53,15 @@ namespace Assets.Scripts.Models
                     {
                         gridCol++;
                         cellIndex = 3 * yCount;
-                    }
-                    
+                    }                    
                 }
                 yCount++;
                 if (yCount % 3 == 0)
                 {
                     yCount = 0;
-                    gridRow++;
-                    
-                }
-                
+                    gridRow++;                    
+                }                
             }
-
         }
         public List<Cell> Cells { get; set; }
 

@@ -15,6 +15,11 @@ namespace Assets.Scripts.Models
             X = x;
             Y = y;
         }
+
+		public GridAreaLocation Add(GridAreaLocation other)
+		{
+			return new GridAreaLocation (X + other.X, Y + other.Y);
+		}
         public Vector2 GetRelativeDirection(GridAreaLocation other)
         {
             int x = 0;
@@ -24,14 +29,16 @@ namespace Assets.Scripts.Models
             if (X < other.X)
                 x = -1;
             if (Y > other.Y)
-                Y = 1;
+                y = 1;
             if (Y < other.Y)
-                Y = -1;
+                y = -1;
 
             return new Vector2(x, y);
         }
         public bool Equals(GridAreaLocation other)
         {
+			if(object.ReferenceEquals(other,null))
+				return false;
             if (X == other.X && Y == other.Y)
                 return true;
             return false;
@@ -48,9 +55,10 @@ namespace Assets.Scripts.Models
         public static bool operator ==(GridAreaLocation lhs, GridAreaLocation rhs)
         {
             // Check for null on left side.
-            if (Object.ReferenceEquals(lhs, null))
+			
+            if (object.ReferenceEquals(lhs, null))
             {
-                if (Object.ReferenceEquals(rhs, null))
+                if (object.ReferenceEquals(rhs, null))
                 {
                     // null == null = true.
                     return true;

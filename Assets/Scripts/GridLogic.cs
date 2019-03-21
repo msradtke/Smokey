@@ -21,14 +21,11 @@ namespace Assets.Scripts
 		public GridModel GridModel;
 		Sprite GridSprite;
 		public Sprite[] Sprites = new Sprite[10];
-		public List<Sprite> TestSprite;
 		public Dictionary<int, Sprite> SpriteDict;
 		// Use this for initialization
 		void Start ()
 		{
-			TestSprite = new List<Sprite> {
-				GridSprite
-			};
+			
 			SpriteDict = new Dictionary<int, Sprite> {
 				{ 0,GridSprite }
 			};
@@ -121,19 +118,21 @@ namespace Assets.Scripts
 			componentScript.CreateComponent (cpu);
             var gridPath = new GridPath();
             var path = gridPath.Path = new List<GridAreaLocation>();
-            path.Add(new GridAreaLocation(0, 0));
-            path.Add(new GridAreaLocation(0, 1));
-			path.Add(new GridAreaLocation(0, 2));
-			path.Add(new GridAreaLocation(0, 3));
-			path.Add(new GridAreaLocation(1, 3));
-			path.Add(new GridAreaLocation(1, 4));
-            path.Add(new GridAreaLocation(2, 4));            
-            path.Add(new GridAreaLocation(2, 5));
-            path.Add(new GridAreaLocation(3, 5));
-            path.Add(new GridAreaLocation(4, 5));
-            path.Add(new GridAreaLocation(5, 5));
-
-
+//            path.Add(new GridAreaLocation(0, 0));
+//            path.Add(new GridAreaLocation(0, 1));
+//			path.Add(new GridAreaLocation(0, 2));
+//			path.Add(new GridAreaLocation(0, 3));
+//			path.Add(new GridAreaLocation(1, 3));
+//			path.Add(new GridAreaLocation(1, 4));
+//            path.Add(new GridAreaLocation(2, 4));            
+//            path.Add(new GridAreaLocation(2, 5));
+//            path.Add(new GridAreaLocation(3, 5));
+//            path.Add(new GridAreaLocation(4, 5));
+//            path.Add(new GridAreaLocation(5, 5));
+			gridPath.StartEntrance= new GridAreaLocation(0,0);
+			gridPath.FinishEntrance= new GridAreaLocation(5,5);
+			GridUtility.GeneratePath(gridPath,gridArea);
+			
             GridUtility.SetCellStates(new List<GridPath> { gridPath }, gridArea);
             gridModels.ForEach(x => x.GridTile.SetState(x));
             //empty.GridTile.SetState(empty);

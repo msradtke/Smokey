@@ -97,14 +97,44 @@ namespace Assets.Scripts.Utilities
 
             bool isComplete = false;
             GridAreaLocation previous = path.StartEntrance;
+			GridAreaLocation currentLocation = path.StartEntrance;
+
+
             while (!isComplete)
             {
                 var cell = gridArea.GetCell(previous);
-                for (int i = 0; i < 4; i++)
-                {
-                    var n = cell.Neighbors[i];
-                    if(n.State == CellState.None)
-                }
+//                for (int i = 0; i < 4; i++)
+//                {
+//                    var n = cell.Neighbors[i];
+//
+//				}
+				var preferredNext = PathAlgorithm.SemiGeneticGetNextLocation(gridArea,currentLocation,path.FinishEntrance,previous);
+				bool added = false;
+				foreach (var i in preferredNext) {
+					var c = gridArea.GetCell (i.Add (currentLocation));
+					if (c.State == CellState.None) {
+						previous = currentLocation;
+						currentLocation = i.Add (currentLocation);
+						c.State = CellState.Path;
+						pathResult.Add (currentLocation);
+						added = true;
+
+						break;
+					}
+											
+				}
+				if (!added) {
+					path.Path = pathResult;
+					return;
+				}
+				if (pathResult.Last () == path.FinishEntrance) {
+					path.Path = pathResult;
+					return;
+				}
+				if (pathResult.Count > 10) { //debug
+					path.Path = pathResult;
+					return;
+				}
             }
 
             pathResult.Add(path.FinishEntrance);
