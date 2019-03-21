@@ -79,7 +79,7 @@ namespace Assets.Scripts.Models
         }
         public Cell GetCell(GridAreaLocation location)
         {
-            var index = location.Y * Width + location.X;
+            var index = location.Y * Width*3 + location.X;
             return Cells[index];
         }
     }

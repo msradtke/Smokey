@@ -86,7 +86,7 @@ namespace Assets.Scripts.Models
         {
             var go = new GameObject(name);
             go.transform.parent = gameObject.transform;
-            go.transform.localPosition = Vector3.zero;
+			go.transform.localPosition = location;
             go.AddComponent<SpriteRenderer>();
             var sr = go.GetComponent<SpriteRenderer>();
             sr.sprite = sprite;

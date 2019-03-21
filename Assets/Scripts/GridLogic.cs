@@ -102,9 +102,12 @@ namespace Assets.Scripts
 
 			ClearGridParent ();
 
-			for (int x = 0; x < width; ++x)
-				for (int y = 0; y < height; ++y) {
+
+			for (int y = 0; y < height; ++y) 
+				for (int x = 0; x < width; ++x)
+			{
 					var gt = Instantiate (gridPrefab, GridParent);
+					gt.name = (x + "," + y);
 					gt.transform.localPosition = new Vector3 (x, y, GridParent.transform.position.z);
 					grid.Add (gt);
 					gridModels.Add (new GridModel(gt));
@@ -120,11 +123,15 @@ namespace Assets.Scripts
             var path = gridPath.Path = new List<GridAreaLocation>();
             path.Add(new GridAreaLocation(0, 0));
             path.Add(new GridAreaLocation(0, 1));
-            //path.Add(new GridAreaLocation(11, 11));            
-            //path.Add(new GridAreaLocation(11, 12));
-            //path.Add(new GridAreaLocation(11, 13));
-            //path.Add(new GridAreaLocation(12, 13));
-            //path.Add(new GridAreaLocation(13, 13));
+			path.Add(new GridAreaLocation(0, 2));
+			path.Add(new GridAreaLocation(0, 3));
+			path.Add(new GridAreaLocation(1, 3));
+			path.Add(new GridAreaLocation(1, 4));
+            path.Add(new GridAreaLocation(2, 4));            
+            path.Add(new GridAreaLocation(2, 5));
+            path.Add(new GridAreaLocation(3, 5));
+            path.Add(new GridAreaLocation(4, 5));
+            path.Add(new GridAreaLocation(5, 5));
             GridUtility.SetCellStates(new List<GridPath> { gridPath }, gridArea);
             gridModels.ForEach(x => x.GridTile.SetState(x));
             //empty.GridTile.SetState(empty);

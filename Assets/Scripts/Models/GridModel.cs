@@ -45,8 +45,9 @@ namespace Assets.Scripts.Models
         void InitCells()
         {
             Cells = new List<Cell>();
+			for (int y = 0; y < 3; y++)
             for (int x = 0; x < 3; x++)
-                for (int y = 0; y < 3; y++)
+                
                 {
                 Cells.Add(new Cell { Location = new CellLocation (x, y ), State = CellState.None });
             }
