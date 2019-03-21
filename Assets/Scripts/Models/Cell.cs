@@ -9,7 +9,7 @@ namespace Assets.Scripts.Models
     {
         public Cell()
         {
-
+            Neighbors = new Cell[4];
         }
         public GridTile Parent { get; set; }
         public CellLocation Location { get; set; }
@@ -18,12 +18,19 @@ namespace Assets.Scripts.Models
 			set;
 		}
 
+        public Cell[] Neighbors { get; set; }
+
+        public Cell LeftNeighbor { get; set; }
+        public Cell RightNeighbor { get; set; }
+        public Cell TopNeighbor { get; set; }
+        public Cell BottomNeighbor { get; set; }
+
     }
+   
     public enum CellState
     {
         None,
-        Vertical,
-        Horizontal,
+        Path,
         Component
     }
 }

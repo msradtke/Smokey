@@ -9,12 +9,14 @@ namespace Assets.Scripts.Models
     {
         public GridComponent()
         {
-			Cells = new List<Cell> ();
+            CellLocations = new List<CellLocation>();
         }
-		public List<Cell> Cells { get; set; }
-		public Color Color {
-			get;
-			set;
-		}
+        public List<CellLocation> CellLocations{ get; set; }
+
+        public Color Color
+        {
+            get;
+            set;
+        }
     }
 }

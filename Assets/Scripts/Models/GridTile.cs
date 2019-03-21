@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,25 +9,13 @@ namespace Assets.Scripts.Models
 {
     public class GridTile : MonoBehaviour
     {
-        public SpriteRenderer Grid;
-        public SpriteRenderer H11;
-        public SpriteRenderer H12;
-        public SpriteRenderer H13;
-        public SpriteRenderer H21;
-        public SpriteRenderer H22;
-        public SpriteRenderer H23;
-        public SpriteRenderer H31;
-        public SpriteRenderer H32;
-        public SpriteRenderer H33;
-        public SpriteRenderer V11;
-        public SpriteRenderer V12;
-        public SpriteRenderer V13;
-        public SpriteRenderer V21;
-        public SpriteRenderer V22;
-        public SpriteRenderer V23;
-        public SpriteRenderer V31;
-        public SpriteRenderer V32;
-        public SpriteRenderer V33;
+        public Sprite Grid;
+        public Sprite Left;
+        public Sprite Top;
+        public Sprite Bottom;
+        public Sprite Right;
+
+        //change to sprites?
         public SpriteRenderer portL1;
         public SpriteRenderer portL2;
         public SpriteRenderer portL3;
@@ -54,7 +43,12 @@ namespace Assets.Scripts.Models
         public SpriteRenderer forground;
         public SpriteRenderer background;
         public SpriteRenderer chip;
-		//public ComponentScript ComponentScript;
+
+
+
+
+
+        //public ComponentScript ComponentScript;
 
         public GridTile()
         {
@@ -65,7 +59,100 @@ namespace Assets.Scripts.Models
 
         }
 
+        public void SetState(GridModel gridModel)
+        {
+            SetPaths(gridModel);
+            SetPorts(gridModel);
 
+        }
+
+        void SetPaths(GridModel gridModel)
+        {
+            foreach (var cell in gridModel.Cells)
+            {
+                if (cell.TopNeighbor != null)
+                    AddSpriteRenderer(Top,GridUtility.GetCellPositionForPath(cell.Location));
+                if (cell.RightNeighbor != null)
+                    AddSpriteRenderer(Right, GridUtility.GetCellPositionForPath(cell.Location));
+                if (cell.BottomNeighbor != null)
+                    AddSpriteRenderer(Bottom, GridUtility.GetCellPositionForPath(cell.Location));
+                if (cell.LeftNeighbor != null)
+                    AddSpriteRenderer(Left, GridUtility.GetCellPositionForPath(cell.Location));
+            }
+        }
+    
+
+        void AddSpriteRenderer(Sprite sprite,Vector3 location, string name = "")
+        {
+            var go = new GameObject(name);
+            go.transform.parent = gameObject.transform;
+            go.transform.localPosition = Vector3.zero;
+            go.AddComponent<SpriteRenderer>();
+            var sr = go.GetComponent<SpriteRenderer>();
+            sr.sprite = sprite;
+        }
+
+        void SetPorts(GridModel gridModel)
+        {
+            if (gridModel.GridComponents.Count(x => x.GetType() == typeof(Chip)) < 1)
+                return;
+            foreach(var component in gridModel.GridComponents)
+            {
+                if (component.GetType() != typeof(Chip))
+                    continue;
+                var chip = (Chip)component;
+                foreach(var port in chip.Ports)
+                {
+                    var go = new GameObject("Port");
+                    go.transform.parent = gameObject.transform;
+                    go.transform.localPosition = Vector3.zero;
+                    go.AddComponent<SpriteRenderer>();
+                    var sr = go.GetComponent<SpriteRenderer>();
+                    
+
+                    switch(port.Location)
+                    {
+                        case 0:
+                            sr.sprite = portT1.sprite;
+                            break;
+                        case 1:
+                            sr.sprite = portT2.sprite;
+                            break;
+                        case 2:
+                            sr.sprite = portT3.sprite;
+                            break;
+                        case 3:
+                            sr.sprite = portR1.sprite;
+                            break;
+                        case 4:
+                            sr.sprite = portR2.sprite;
+                            break;
+                        case 5:
+                            sr.sprite = portR3.sprite;
+                            break;
+                        case 6:
+                            sr.sprite = portB1.sprite;
+                            break;
+                        case 7:
+                            sr.sprite = portB2.sprite;
+                            break;
+                        case 8:
+                            sr.sprite = portB3.sprite;
+                            break;
+                        case 9:
+                            sr.sprite = portL1.sprite;
+                            break;
+                        case 10:
+                            sr.sprite = portL2.sprite;
+                            break;
+                        case 11:
+                            sr.sprite = portL3.sprite;
+                            break;
+
+                    }
+                }
+            }
+        }
 
     }
 }

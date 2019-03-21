@@ -98,7 +98,7 @@ namespace Assets.Scripts
 			var height = gridArea.Height;
 			var grid = new List<GridTile> ();
 			var gridModels = new List<GridModel> ();
-			gridArea.Grids = gridModels;
+			
 
 			ClearGridParent ();
 
@@ -107,39 +107,51 @@ namespace Assets.Scripts
 					var gt = Instantiate (gridPrefab, GridParent);
 					gt.transform.localPosition = new Vector3 (x, y, GridParent.transform.position.z);
 					grid.Add (gt);
-					gridModels.Add (new GridModel {GridTile = gt});
+					gridModels.Add (new GridModel(gt));
 				}
+            gridArea.SetGrids(gridModels);
 
-			var cpu = TestGrid.GetCpu();
+            var cpu = TestGrid.GetCpu();
 			var empty = GridUtility.GetEmptyGrid (gridArea);
+            empty.GridComponents.Add(cpu);
 			var componentScript = empty.GridTile.gameObject.GetComponent<ComponentScript>();
 			componentScript.CreateComponent (cpu);
-
+            var gridPath = new GridPath();
+            var path = gridPath.Path = new List<GridAreaLocation>();
+            path.Add(new GridAreaLocation(0, 0));
+            path.Add(new GridAreaLocation(0, 1));
+            //path.Add(new GridAreaLocation(11, 11));            
+            //path.Add(new GridAreaLocation(11, 12));
+            //path.Add(new GridAreaLocation(11, 13));
+            //path.Add(new GridAreaLocation(12, 13));
+            //path.Add(new GridAreaLocation(13, 13));
+            GridUtility.SetCellStates(new List<GridPath> { gridPath }, gridArea);
+            gridModels.ForEach(x => x.GridTile.SetState(x));
+            //empty.GridTile.SetState(empty);
 
 			var boostChip = TestGrid.GetBoostChip ();
 			empty = GridUtility.GetEmptyGrid (gridArea);
+            empty.GridComponents.Add(boostChip);
 			componentScript = empty.GridTile.gameObject.GetComponent<ComponentScript>();
 			componentScript.CreateComponent (boostChip);
+            empty.GridTile.SetState(empty);
 
-
-			var componentCount = 4;
+            var componentCount = 4;
 			var usedTiles = new List<GridTile> ();
 			var max = grid.Count;
 			int i = 0;
 			while (i < componentCount) {
-				var gt = grid [Random.Range (0, max)];
-				if (usedTiles.Contains (gt))
-					continue;
-				usedTiles.Add (gt);
+                empty = GridUtility.GetEmptyGrid(gridArea); ;
 				var gridComponent = new GridComponent ();
 				gridComponent.Color = GameUtility.GetRandomColor ();
-				var cell = new Cell ();
-				gridComponent.Cells.Add (cell);
-				cell.Location = new CellLocation{X=Random.Range(0,3), Y=Random.Range(0,3)};
-				componentScript = gt.gameObject.GetComponent<ComponentScript>();
+				gridComponent.CellLocations.Add (new CellLocation (Random.Range(0, 3), Random.Range(0, 3)));
+                empty.AddComponent(gridComponent);
+
+				componentScript = empty.GridTile.gameObject.GetComponent<ComponentScript>();
 				componentScript.CreateComponent(gridComponent);
 				++i;
-			}
+                empty.GridTile.SetState(empty);
+            }
 			
 			//gridComponent.Cell.Location = new CellLocation { X = 0, Y = 1 };
 			//componentScript.CreateComponent (gridComponent);

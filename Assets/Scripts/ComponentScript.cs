@@ -40,4 +40,5 @@ public class ComponentScript : MonoBehaviour {
 		child.transform.localPosition = location;
 		
     }
+
 }

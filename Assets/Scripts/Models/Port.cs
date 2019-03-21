@@ -9,7 +9,7 @@ namespace Assets.Scripts.Models
     {
         public Port(int location)
         {
-
+            Location = location;
         }
 
         public int Location { get; private set; }

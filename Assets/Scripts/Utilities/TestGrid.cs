@@ -70,16 +70,16 @@ namespace Assets.Scripts.Utilities
             return list;
         }
 
-		public static GridComponent GetRandomComponent()
-		{
-			var gridComponent = new GridComponent ();
-			gridComponent.Color = GameUtility.GetRandomColor ();
-			var cell = new Cell ();
-			cell.Location = new CellLocation { X = ran.Next(0,3), Y = ran.Next(0,3) };
-			gridComponent.Cells.Add (cell);
+		//public static GridComponent GetRandomComponent()
+		//{
+		//	var gridComponent = new GridComponent ();
+		//	gridComponent.Color = GameUtility.GetRandomColor ();
+		//	var cell = new Cell ();
+		//	cell.Location = new CellLocation { X = ran.Next(0,3), Y = ran.Next(0,3) };
+		//	gridComponent.Cells.Add (cell);
 
-			return gridComponent;
-		}
+		//	return gridComponent;
+		//}
 
 
 
