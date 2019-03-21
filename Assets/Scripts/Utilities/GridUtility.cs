@@ -88,7 +88,27 @@ namespace Assets.Scripts.Utilities
             return null;
         }
         public static Vector3 GridLocation { get; private set; }
+        public static void GeneratePath(GridPath path, GridArea gridArea)
+        {
+            var start = path.Start;
+            var end = path.Finish;
+            var pathResult = new List<GridAreaLocation>();
+            pathResult.Add(path.StartEntrance);
 
+            bool isComplete = false;
+            GridAreaLocation previous = path.StartEntrance;
+            while (!isComplete)
+            {
+                var cell = gridArea.GetCell(previous);
+                for (int i = 0; i < 4; i++)
+                {
+                    var n = cell.Neighbors[i];
+                    if(n.State == CellState.None)
+                }
+            }
+
+            pathResult.Add(path.FinishEntrance);
+        }
         public static void SetCellStates(List<GridPath> gridPaths, GridArea gridArea)
         {
             foreach (var path in gridPaths)

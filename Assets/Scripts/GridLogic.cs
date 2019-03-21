@@ -132,6 +132,8 @@ namespace Assets.Scripts
             path.Add(new GridAreaLocation(3, 5));
             path.Add(new GridAreaLocation(4, 5));
             path.Add(new GridAreaLocation(5, 5));
+
+
             GridUtility.SetCellStates(new List<GridPath> { gridPath }, gridArea);
             gridModels.ForEach(x => x.GridTile.SetState(x));
             //empty.GridTile.SetState(empty);

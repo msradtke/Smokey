@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace Assets.Scripts.Models
 {
@@ -13,6 +14,21 @@ namespace Assets.Scripts.Models
         {
             X = x;
             Y = y;
+        }
+        public Vector2 GetRelativeDirection(GridAreaLocation other)
+        {
+            int x = 0;
+            int y = 0;
+            if (X > other.X)
+                x = 1;
+            if (X < other.X)
+                x = -1;
+            if (Y > other.Y)
+                Y = 1;
+            if (Y < other.Y)
+                Y = -1;
+
+            return new Vector2(x, y);
         }
         public bool Equals(GridAreaLocation other)
         {

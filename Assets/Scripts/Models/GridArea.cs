@@ -82,5 +82,6 @@ namespace Assets.Scripts.Models
             var index = location.Y * Width*3 + location.X;
             return Cells[index];
         }
+
     }
 }

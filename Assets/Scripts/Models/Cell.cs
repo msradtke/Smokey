@@ -10,13 +10,14 @@ namespace Assets.Scripts.Models
         public Cell()
         {
             Neighbors = new Cell[4];
+            Neighbors[0] = LeftNeighbor;
+            Neighbors[1] = TopNeighbor;
+            Neighbors[2] = RightNeighbor;
+            Neighbors[3] = BottomNeighbor;
         }
         public GridTile Parent { get; set; }
         public CellLocation Location { get; set; }
-		public CellState State {
-			get;
-			set;
-		}
+        public CellState State { get; set; }
 
         public Cell[] Neighbors { get; set; }
 
@@ -26,7 +27,7 @@ namespace Assets.Scripts.Models
         public Cell BottomNeighbor { get; set; }
 
     }
-   
+
     public enum CellState
     {
         None,
