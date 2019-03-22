@@ -74,8 +74,23 @@ namespace Assets.Scripts.Models
         }
         public Cell GetCell(GridAreaLocation location)
         {
+            if (location.X <0 || location.Y < 0)
+                return null;
+            if (location.X/3 >= Width || location.Y/3 >= Height)
+                return null;
             var index = location.Y * Width*3 + location.X;
+            if (index >= Cells.Count || index < 0)
+                return null;
             return Cells[index];
+        }
+
+        public GridAreaLocation GetCellLocation(Cell cell)
+        {
+            var index = Cells.IndexOf(cell);
+            int y = (index + Width*3 - 1) / (Width*3) -1;
+            int x = index % (Width*3);
+            var gl = new GridAreaLocation(x, y);
+            return gl;
         }
 
     }

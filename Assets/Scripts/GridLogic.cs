@@ -2,6 +2,7 @@
 using Assets.Scripts.Utilities;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -112,63 +113,74 @@ namespace Assets.Scripts
             gridArea.SetGrids(gridModels);
 
             var cpu = TestGrid.GetCpu();
-			var empty = GridUtility.GetEmptyGrid (gridArea);
-            empty.GridComponents.Add(cpu);
-			var componentScript = empty.GridTile.gameObject.GetComponent<ComponentScript>();
+			var cpuModel = GridUtility.GetEmptyGrid (gridArea);
+            var cpuLocation = gridArea.GetCellLocation(cpuModel.Cells.First()); //need PORTS and ENTRANCE
+            cpuModel.GridComponents.Add(cpu);
+			var componentScript = cpuModel.GridTile.gameObject.GetComponent<ComponentScript>();
 			componentScript.CreateComponent (cpu);
-            var gridPath = new GridPath();
-            var path = gridPath.Path = new List<GridAreaLocation>();
-//            path.Add(new GridAreaLocation(0, 0));
-//            path.Add(new GridAreaLocation(0, 1));
-//			path.Add(new GridAreaLocation(0, 2));
-//			path.Add(new GridAreaLocation(0, 3));
-//			path.Add(new GridAreaLocation(1, 3));
-//			path.Add(new GridAreaLocation(1, 4));
-//            path.Add(new GridAreaLocation(2, 4));            
-//            path.Add(new GridAreaLocation(2, 5));
-//            path.Add(new GridAreaLocation(3, 5));
-//            path.Add(new GridAreaLocation(4, 5));
-//            path.Add(new GridAreaLocation(5, 5));
-			gridPath.StartEntrance= new GridAreaLocation(0,0);
-			gridPath.FinishEntrance= new GridAreaLocation(5,5);
-			GridUtility.GeneratePath(gridPath,gridArea);
-			
-            GridUtility.SetCellStates(new List<GridPath> { gridPath }, gridArea);
-            gridModels.ForEach(x => x.GridTile.SetState(x));
+
             //empty.GridTile.SetState(empty);
 
 			var boostChip = TestGrid.GetBoostChip ();
-			empty = GridUtility.GetEmptyGrid (gridArea);
-            empty.GridComponents.Add(boostChip);
-			componentScript = empty.GridTile.gameObject.GetComponent<ComponentScript>();
+			var boostModel = GridUtility.GetEmptyGrid (gridArea);
+            var boostChipLocation = gridArea.GetCellLocation(boostModel.Cells.First());//need PORTS and ENTRANCE
+
+            boostModel.AddComponent(boostChip);
+			componentScript = boostModel.GridTile.gameObject.GetComponent<ComponentScript>();
 			componentScript.CreateComponent (boostChip);
-            empty.GridTile.SetState(empty);
+            boostModel.GridTile.SetState(boostModel);
 
             var componentCount = 4;
 			var usedTiles = new List<GridTile> ();
 			var max = grid.Count;
 			int i = 0;
-			while (i < componentCount) {
-                empty = GridUtility.GetEmptyGrid(gridArea); ;
-				var gridComponent = new GridComponent ();
-				gridComponent.Color = GameUtility.GetRandomColor ();
-				gridComponent.CellLocations.Add (new CellLocation (Random.Range(0, 3), Random.Range(0, 3)));
-                empty.AddComponent(gridComponent);
 
-				componentScript = empty.GridTile.gameObject.GetComponent<ComponentScript>();
+            List<GridAreaLocation> recvrLocations = new List<GridAreaLocation>();
+			while (i < componentCount) {
+                var receiverModel= GridUtility.GetEmptyGrid(gridArea);
+                
+
+                var gridComponent = new GridComponent ();
+				gridComponent.Color = GameUtility.GetRandomColor ();
+                var c=new CellLocation(Random.Range(0, 3), Random.Range(0, 3));
+                var rCell = receiverModel.GetCell(c);// testing, picking first cell of the grid
+                recvrLocations.Add(gridArea.GetCellLocation(rCell));
+
+                gridComponent.CellLocations.Add (c);
+                receiverModel.AddComponent(gridComponent);
+
+				componentScript = receiverModel.GridTile.gameObject.GetComponent<ComponentScript>();
 				componentScript.CreateComponent(gridComponent);
 				++i;
-                empty.GridTile.SetState(empty);
+                receiverModel.GridTile.SetState(receiverModel);
             }
-			
-			//gridComponent.Cell.Location = new CellLocation { X = 0, Y = 1 };
-			//componentScript.CreateComponent (gridComponent);
+
+            List<GridPath> paths = new List<GridPath>();
+            foreach (var r in recvrLocations)
+            {
+                var gp = new GridPath();
+                gp.StartEntrance = r;
+                gp.FinishEntrance = cpuLocation;
+
+                AStarPath aStar = new AStarPath();
+                var path = aStar.FindPath(r, cpuLocation, gridArea);
+                gp.Path = path;
+                //GridUtility.GeneratePath(gp, gridArea);
+
+                paths.Add(gp);
+            }
+            
+
+            GridUtility.SetCellStates(paths, gridArea);
+            gridModels.ForEach(x => x.GridTile.SetState(x));
+            //gridComponent.Cell.Location = new CellLocation { X = 0, Y = 1 };
+            //componentScript.CreateComponent (gridComponent);
 
 
-			//g.gameObject.AddComponent<ComponentScript> ();
+            //g.gameObject.AddComponent<ComponentScript> ();
 
 
-		}
+        }
 
 		void ClearGridParent ()
 		{
