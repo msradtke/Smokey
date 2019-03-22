@@ -22,7 +22,7 @@ namespace Assets.Scripts.Models
 			get;
 			set;
 		}
-        public List<GridComponent> GridComponents { get; set; }
+        public List<GridComponent> GridComponents { get; private set; }
 
         public void AddComponent(GridComponent gridComponent)
         {
@@ -32,6 +32,11 @@ namespace Assets.Scripts.Models
                 var loc = Cells.FirstOrDefault(x => x.Location.X == cl.X && x.Location.Y == cl.Y);
                 loc.State = CellState.Component;
             }
+        }
+
+        public Cell GetCell(CellLocation cellLocation)
+        {
+            return Cells.FirstOrDefault(x => x.Location.X == cellLocation.X && x.Location.Y == cellLocation.Y);
         }
 
         public bool IsEmpty()

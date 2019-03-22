@@ -71,25 +71,48 @@ namespace Assets.Scripts.Models
             foreach (var cell in gridModel.Cells)
             {
                 if (cell.TopNeighbor != null)
-                    AddSpriteRenderer(Top,GridUtility.GetCellPositionForPath(cell.Location));
+                {
+                    AddSpriteRenderer(Top, GridUtility.GetSpritePositionForPath(cell.Location));
+                    if (!gridModel.Cells.Contains(cell.TopNeighbor))
+                        SetCrossingLine(cell, cell.TopNeighbor, Top);
+                }
                 if (cell.RightNeighbor != null)
-                    AddSpriteRenderer(Right, GridUtility.GetCellPositionForPath(cell.Location));
+                {
+                    AddSpriteRenderer(Right, GridUtility.GetSpritePositionForPath(cell.Location));
+                    if (!gridModel.Cells.Contains(cell.RightNeighbor))
+                        SetCrossingLine(cell, cell.RightNeighbor, Right);
+                }
                 if (cell.BottomNeighbor != null)
-                    AddSpriteRenderer(Bottom, GridUtility.GetCellPositionForPath(cell.Location));
+                {
+                    AddSpriteRenderer(Bottom, GridUtility.GetSpritePositionForPath(cell.Location));
+                    if (!gridModel.Cells.Contains(cell.BottomNeighbor))
+                        SetCrossingLine(cell, cell.BottomNeighbor, Bottom);
+                }
                 if (cell.LeftNeighbor != null)
-                    AddSpriteRenderer(Left, GridUtility.GetCellPositionForPath(cell.Location));
+                {
+                    AddSpriteRenderer(Left, GridUtility.GetSpritePositionForPath(cell.Location));
+                    if (!gridModel.Cells.Contains(cell.LeftNeighbor))
+                        SetCrossingLine(cell, cell.LeftNeighbor, Left);
+                }
             }
         }
-    
+
+        void SetCrossingLine(Cell cell, Cell neighbor, Sprite sprite)
+        {
+            var pos = GridUtility.GetSpritePositionForPathCrossing(cell, neighbor);
+            AddSpriteRenderer(sprite, pos);
+        }    
 
         void AddSpriteRenderer(Sprite sprite,Vector3 location, string name = "")
         {
             var go = new GameObject(name);
+            
             go.transform.parent = gameObject.transform;
 			go.transform.localPosition = location;
             go.AddComponent<SpriteRenderer>();
             var sr = go.GetComponent<SpriteRenderer>();
             sr.sprite = sprite;
+            sr.sortingOrder = 15;
         }
 
         void SetPorts(GridModel gridModel)

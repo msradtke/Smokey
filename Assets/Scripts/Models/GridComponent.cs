@@ -12,7 +12,14 @@ namespace Assets.Scripts.Models
             CellLocations = new List<CellLocation>();
         }
         public List<CellLocation> CellLocations{ get; set; }
-
+        public void SetAllCellLocations()
+        {
+            for (int x = 0; x < 3; x++)
+                for (int y = 0; y < 3; y++)
+                {
+                    CellLocations.Add(new CellLocation(x, y));
+                }
+        }
         public Color Color
         {
             get;

@@ -40,6 +40,7 @@ namespace Assets.Scripts.Utilities
                 ports.Add(new Port(pos));
 			var cpu = new Chip(ChipSize.Small,ports);
 			cpu.Color = GameUtility.GetRandomColor ();
+            cpu.SetAllCellLocations();
             return cpu;
 
         }

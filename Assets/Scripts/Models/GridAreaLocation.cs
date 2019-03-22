@@ -20,18 +20,22 @@ namespace Assets.Scripts.Models
 		{
 			return new GridAreaLocation (X + other.X, Y + other.Y);
 		}
+        public GridAreaLocation Add(int x, int y)
+        {
+            return new GridAreaLocation(X + x, Y + y);
+        }
         public Vector2 GetRelativeDirection(GridAreaLocation other)
         {
             int x = 0;
             int y = 0;
             if (X > other.X)
-                x = 1;
-            if (X < other.X)
                 x = -1;
+            if (X < other.X)
+                x = 1;
             if (Y > other.Y)
-                y = 1;
-            if (Y < other.Y)
                 y = -1;
+            if (Y < other.Y)
+                y = 1;
 
             return new Vector2(x, y);
         }

@@ -11,8 +11,8 @@ namespace Assets.Scripts.Models
 	{
 		public static List<GridAreaLocation> SemiGeneticGetNextLocation (GridArea gridArea, GridAreaLocation current, GridAreaLocation finishEntrance, GridAreaLocation previousLocation)
 		{
-			float entranceDirectionWeight = .7f; //tend to go towards entrance
-			float straightLineWeight = .3f; //tendency to choose 
+			float entranceDirectionWeight = 700f; //tend to go towards entrance
+			float straightLineWeight = .7f; //tendency to choose 
 			float randomWeight = .1f;
 			GridAreaLocation currentLocation = current;
 
@@ -40,7 +40,7 @@ namespace Assets.Scripts.Models
 					if (v.Y == previousVector.Y)
 						weight += straightLineWeight;
 				}
-				nextWeightDict.Add (v, weight + entranceDirectionWeight);
+				nextWeightDict.Add (v, weight);
 
 			}
 			var wints = GetNextCell (nextWeightDict);
@@ -58,15 +58,23 @@ namespace Assets.Scripts.Models
 			for (int i = 0; i < count; i++) {
 				float totalWeight = neighbors.Sum (x => nextWeightDict [x]);
 				List<float> weights = new List<float> ();
-				neighbors.ForEach (x => weights.Add (nextWeightDict [x] / totalWeight));
 
+                float sum = 0;
+                foreach (var n in neighbors)
+                {
+                    var nxt = nextWeightDict[n];
+                    weights.Add((nxt + sum) / totalWeight);
+                    sum += nxt;
+                }
+                int cnt= 0;
 				float r = Random.Range (0f, 1f);
 				foreach (var n in neighbors) {
-					if (r < nextWeightDict [n]) {
+					if (r < weights[cnt]) {
 						next.Add (n);
 						neighbors.Remove (n);
 						break;
 					}
+                    cnt++;
 				}
 			}
 			return next;
