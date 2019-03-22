@@ -26,7 +26,7 @@ namespace Assets.Scripts
 		// Use this for initialization
 		void Start ()
 		{
-			
+			timePassedSceneSwitch = Time.time;
 			SpriteDict = new Dictionary<int, Sprite> {
 				{ 0,GridSprite }
 			};
@@ -35,16 +35,21 @@ namespace Assets.Scripts
 			savedZoom = Cam.orthographicSize;
 		}
 
+		float timePassedSceneSwitch;
 		// Update is called once per frame
 		void Update ()
 		{
-            
+			timePassedSceneSwitch -= Time.deltaTime;
 			if (Input.GetKeyDown (KeyCode.D) && Input.GetKey (KeyCode.LeftControl)) {
-				Debug.Log ("KeyDown");
-				if (isGridActive)
-					CloseGrid ();
-				else
-					ShowGrid ();
+				if (timePassedSceneSwitch <= 0) {
+					timePassedSceneSwitch = 0;
+					if (isGridActive)
+						CloseGrid ();
+					else
+						ShowGrid ();
+
+
+				}
 			}
 
 

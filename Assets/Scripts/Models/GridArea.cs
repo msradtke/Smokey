@@ -87,7 +87,7 @@ namespace Assets.Scripts.Models
         public GridAreaLocation GetCellLocation(Cell cell)
         {
             var index = Cells.IndexOf(cell);
-            int y = (index + Width*3 - 1) / (Width*3) -1;
+            int y = index /(Width*3);
             int x = index % (Width*3);
             var gl = new GridAreaLocation(x, y);
             return gl;
