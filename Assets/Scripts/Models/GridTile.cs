@@ -65,32 +65,33 @@ namespace Assets.Scripts.Models
             SetPorts(gridModel);
 
         }
-
+        int pathSortingOrder=11;
+        int componentSortingOrder = 12;
         void SetPaths(GridModel gridModel)
         {
             foreach (var cell in gridModel.Cells)
             {
                 if (cell.TopNeighbor != null)
                 {
-                    AddSpriteRenderer(Top, GridUtility.GetSpritePositionForPath(cell.Location));
+                    AddSpriteRenderer(Top, GridUtility.GetSpritePositionForPath(cell.Location), pathSortingOrder);
                     if (!gridModel.Cells.Contains(cell.TopNeighbor))
                         SetCrossingLine(cell, cell.TopNeighbor, Top);
                 }
                 if (cell.RightNeighbor != null)
                 {
-                    AddSpriteRenderer(Right, GridUtility.GetSpritePositionForPath(cell.Location));
+                    AddSpriteRenderer(Right, GridUtility.GetSpritePositionForPath(cell.Location), pathSortingOrder);
                     if (!gridModel.Cells.Contains(cell.RightNeighbor))
                         SetCrossingLine(cell, cell.RightNeighbor, Right);
                 }
                 if (cell.BottomNeighbor != null)
                 {
-                    AddSpriteRenderer(Bottom, GridUtility.GetSpritePositionForPath(cell.Location));
+                    AddSpriteRenderer(Bottom, GridUtility.GetSpritePositionForPath(cell.Location), pathSortingOrder);
                     if (!gridModel.Cells.Contains(cell.BottomNeighbor))
                         SetCrossingLine(cell, cell.BottomNeighbor, Bottom);
                 }
                 if (cell.LeftNeighbor != null)
                 {
-                    AddSpriteRenderer(Left, GridUtility.GetSpritePositionForPath(cell.Location));
+                    AddSpriteRenderer(Left, GridUtility.GetSpritePositionForPath(cell.Location), pathSortingOrder);
                     if (!gridModel.Cells.Contains(cell.LeftNeighbor))
                         SetCrossingLine(cell, cell.LeftNeighbor, Left);
                 }
@@ -100,10 +101,10 @@ namespace Assets.Scripts.Models
         void SetCrossingLine(Cell cell, Cell neighbor, Sprite sprite)
         {
             var pos = GridUtility.GetSpritePositionForPathCrossing(cell, neighbor);
-            AddSpriteRenderer(sprite, pos);
+            AddSpriteRenderer(sprite,pos,pathSortingOrder);
         }    
 
-        void AddSpriteRenderer(Sprite sprite,Vector3 location, string name = "")
+        void AddSpriteRenderer(Sprite sprite,Vector3 location, int sorting,string name = "")
         {
             var go = new GameObject(name);
             
@@ -112,7 +113,7 @@ namespace Assets.Scripts.Models
             go.AddComponent<SpriteRenderer>();
             var sr = go.GetComponent<SpriteRenderer>();
             sr.sprite = sprite;
-            sr.sortingOrder = 15;
+            sr.sortingOrder = sorting;
         }
 
         void SetPorts(GridModel gridModel)
